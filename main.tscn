@@ -1,0 +1,137 @@
+[gd_scene load_steps=15 format=3 uid="uid://c5pkvffaoldqe"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_2n5l8"]
+[ext_resource type="PackedScene" uid="uid://b5j4wvqm6nxid" path="res://scenes/portal/portal.tscn" id="2_fjis8"]
+[ext_resource type="PackedScene" uid="uid://c1r8lykktpk13" path="res://scenes/frame_portal.tscn" id="2_fo4wy"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5o7gm"]
+
+[sub_resource type="Sky" id="Sky_d0u8p"]
+sky_material = SubResource("ProceduralSkyMaterial_5o7gm")
+
+[sub_resource type="Environment" id="Environment_d2piq"]
+background_mode = 2
+sky = SubResource("Sky_d0u8p")
+ambient_light_source = 3
+reflected_light_source = 2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_08qqf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7u7tt"]
+albedo_color = Color(0.662745, 0.160784, 0.254902, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_d346e"]
+material = SubResource("StandardMaterial3D_7u7tt")
+size = Vector3(30, 0.1, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1gj4q"]
+size = Vector3(30, 0.1, 30)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hl7es"]
+albedo_color = Color(0.00784314, 0.670588, 0.972549, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_edhvn"]
+material = SubResource("StandardMaterial3D_hl7es")
+size = Vector3(30, 0.1, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0sykc"]
+size = Vector3(5, 0.1, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_us026"]
+size = Vector3(5, 0.1, 5)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_d2piq")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.5, 0.75, -0.433013, 0, 0.5, 0.866025, 0.866025, -0.433013, 0.25, 0, 2.3054, 0)
+shadow_enabled = true
+
+[node name="Player" type="CharacterBody3D" parent="." groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 7)
+collision_layer = 3
+script = ExtResource("1_2n5l8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_08qqf")
+
+[node name="Gimbal" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/Gimbal"]
+near = 0.001
+far = 100.0
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_d346e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_1gj4q")
+
+[node name="FramePortal" parent="Ground" instance=ExtResource("2_fo4wy")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Portal1" parent="Ground/FramePortal" node_paths=PackedStringArray("target") instance=ExtResource("2_fjis8")]
+target = NodePath("../../../Ground2/FramePortal2/Portal2")
+
+[node name="Ground2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground2"]
+mesh = SubResource("BoxMesh_edhvn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground2"]
+shape = SubResource("BoxShape3D_1gj4q")
+
+[node name="FramePortal2" parent="Ground2" instance=ExtResource("2_fo4wy")]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -2, 0, 0)
+
+[node name="Portal2" parent="Ground2/FramePortal2" node_paths=PackedStringArray("target") instance=ExtResource("2_fjis8")]
+target = NodePath("../../../Ground/FramePortal/Portal1")
+
+[node name="FramePortal3" parent="Ground2" instance=ExtResource("2_fo4wy")]
+transform = Transform3D(-6.70552e-08, 0, 1, -8.88178e-16, 1, -3.72529e-08, -1, -3.33067e-15, -5.96046e-08, -2, 9, 11)
+
+[node name="Portal3" parent="Ground2/FramePortal3" node_paths=PackedStringArray("target") instance=ExtResource("2_fjis8")]
+target = NodePath("../../FramePortal4/Portal4")
+
+[node name="FramePortal4" parent="Ground2" instance=ExtResource("2_fo4wy")]
+transform = Transform3D(1, 0, -3.55271e-15, 0, 1, -1.49012e-08, 3.55271e-15, 0, 1, -28, 0, 0)
+
+[node name="Portal4" parent="Ground2/FramePortal4" node_paths=PackedStringArray("target") instance=ExtResource("2_fjis8")]
+transform = Transform3D(1, -8.88178e-16, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+target = NodePath("../../FramePortal3/Portal3")
+
+[node name="Hud" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Hud"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Hud/CenterContainer"]
+custom_minimum_size = Vector2(8, 8)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Ground3" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 9, 11)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground3"]
+mesh = SubResource("BoxMesh_0sykc")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground3"]
+shape = SubResource("BoxShape3D_us026")

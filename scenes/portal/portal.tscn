@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5j4wvqm6nxid"]
+
+[ext_resource type="Script" path="res://scenes/portal/portal.gd" id="1_xlir7"]
+[ext_resource type="ArrayMesh" uid="uid://6iwxauhgoaqp" path="res://assets/meshes/portal_env_portal.res" id="2_1jpjf"]
+[ext_resource type="Material" uid="uid://c0fu1x5gwa5a6" path="res://assets/materials/portal.tres" id="3_b71rk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_djp3s"]
+size = Vector3(4, 4, 0.01)
+
+[node name="Portal" type="Node3D"]
+script = ExtResource("1_xlir7")
+
+[node name="Area" type="Area3D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 2, 0)
+shape = SubResource("BoxShape3D_djp3s")
+
+[node name="PortalMesh" type="MeshInstance3D" parent="Area"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+layers = 16
+cast_shadow = 0
+mesh = ExtResource("2_1jpjf")
+surface_material_override/0 = ExtResource("3_b71rk")
+
+[node name="Viewport" type="SubViewport" parent="."]
+handle_input_locally = false
+msaa_3d = 3
+screen_space_aa = 1
+render_target_update_mode = 4
+
+[node name="Camera" type="Camera3D" parent="Viewport"]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, 0)
+cull_mask = 1048559
+size = 3.0
+near = 0.001
+far = 1000.0
+
+[connection signal="body_entered" from="Area" to="." method="_on_area_body_entered"]
+[connection signal="body_exited" from="Area" to="." method="_on_area_body_exited"]

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdkkse6hdq8e4"]
+
+[ext_resource type="ArrayMesh" uid="uid://bm4wxrl0vsyfr" path="res://assets/meshes/portal_env_ceiling.res" id="1_csvpl"]
+
+[node name="Ceiling" type="MeshInstance3D"]
+mesh = ExtResource("1_csvpl")

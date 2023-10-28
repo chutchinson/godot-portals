@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1r8lykktpk13"]
+
+[ext_resource type="ArrayMesh" uid="uid://cej4p72yeah2r" path="res://assets/meshes/portal_env_portal_frame.res" id="2_c0prt"]
+[ext_resource type="Material" uid="uid://dv74vvnjtonwn" path="res://assets/materials/stone.tres" id="3_bytbu"]
+
+[node name="FramePortal" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -0.0375, 0, 0.0375)
+mesh = ExtResource("2_c0prt")
+surface_material_override/0 = ExtResource("3_bytbu")
